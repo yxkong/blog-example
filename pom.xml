@@ -3,6 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>java8</module>
+        <module>other</module>
+    </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -12,6 +16,7 @@
     <groupId>com.yxkong</groupId>
     <artifactId>blog-example</artifactId>
     <version>0.1</version>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -30,6 +35,8 @@
         <jwt.version>3.15.0</jwt.version>
         <junit.version>4.13.2</junit.version>
         <aviator.version>5.2.5</aviator.version>
+        <guava.version>29.0-jre</guava.version>
+        <redisson.version>3.16.0</redisson.version>
     </properties>
 
     <dependencies>
@@ -106,7 +113,16 @@
                 <artifactId>aviator</artifactId>
                 <version>${aviator.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
