@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- Log4j 2.DSConfig 配置文件。每60秒自动检查和应用配置文件的更新； -->
+<Configuration status="warn" monitorInterval="60" strict="true">
+	<Properties>
+		<Property name="PROJECT_NAME">other</Property>
+		<Property name="LOG_HOME">logs/${PROJECT_NAME}</Property>
+		<Property name="COMMON_LEVEL">info</Property>
+		<!--<Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS} [%C %M %L] %t [%p] - %msg%n-->
+		<!--</Property>-->
+		<Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS} [%level]-[Thread:%t]-[%logger{36}]-lsh:%X{lsh}-feignId:%X{feignId}-token:%X{token} - %msg%n</Property>
+		<Property name="LEVEL_ERROR">info</Property>
+	</Properties>
+	<Appenders>
+		<!-- 输出到控制台-->
+		<Console name="console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout charset="utf-8" pattern="${LOG_PATTERN}" />
+		</Console>
+		<RollingFile name="debugAppender" fileName="${LOG_HOME}/debug.log"
+			filePattern="${LOG_HOME}/$${date:yyyy-MM}/debug-%d{MM-dd}.%i.log">
+			<filters>
+				<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+			</filters>
+			<PatternLayout charset="UTF-8">
+				<pattern>${LOG_PATTERN}</pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy />
+				<!-- 封存文件的大小 -->
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<!-- 封存文件的序号的最大值。（超过最大值时，将有文件被删除）默认7 -->
+			<DefaultRolloverStrategy max="500">
+				<Delete basePath="${LOG_HOME}" maxDepth="500">
+					<IfFileName glob="*/*/debug-*.log">
+						<IfLastModified age="15d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		<RollingFile name="infoAppender" fileName="${LOG_HOME}/info.log"
+			filePattern="${LOG_HOME}/$${date:yyyy-MM}/info-%d{MM-dd}.%i.log">
+			<filters>
+				<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
+			</filters>
+			<PatternLayout charset="UTF-8">
+				<pattern>${LOG_PATTERN}</pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="500">
+				<Delete basePath="${LOG_HOME}" maxDepth="500">
+					<IfFileName glob="*/*/info-*.log">
+						<IfLastModified age="15d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		<RollingFile name="warnAppender" fileName="${LOG_HOME}/warn.log"
+			filePattern="${LOG_HOME}/$${date:yyyy-MM}/warn-%d{MM-dd}.%i.log">
+			<filters>
+				<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY" />
+			</filters>
+			<PatternLayout charset="UTF-8">
+				<pattern>${LOG_PATTERN}</pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="500">
+				<Delete basePath="${LOG_HOME}" maxDepth="500">
+					<IfFileName glob="*/*/warn-*.log">
+						<IfLastModified age="15d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		<RollingFile name="errorAppender" fileName="${LOG_HOME}/error.log"
+			filePattern="${LOG_HOME}/$${date:yyyy-MM}/error-%d{MM-dd}.%i.log">
+			<filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+			</filters>
+			<PatternLayout charset="UTF-8">
+				<pattern>${LOG_PATTERN}</pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="500">
+				<Delete basePath="${LOG_HOME}" maxDepth="500">
+					<IfFileName glob="*/*/error-*.log">
+						<IfLastModified age="15d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<AsyncRoot level="${COMMON_LEVEL}" includeLocation="true">
+			 <AppenderRef ref="console" />
+			<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+<!-- 			<appender-ref ref="KafkaAsyncAppender" /> -->
+		</AsyncRoot>
+		<!--myibatis log configure -->
+		<logger name="org.apache.ibatis" level="TRACE" additivity="false">
+		<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+		</logger>
+		<logger name="java.sql.Connection" level="DEBUG" additivity="false">
+		<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+		</logger>
+		<logger name="java.sql.Statement" level="DEBUG" additivity="false">
+		<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+		</logger>
+		<logger name="java.sql.PreparedStatement" level="DEBUG" additivity="false">
+		<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+		</logger>
+
+		<logger name="org.springframework.jdbc" level="DEBUG" additivity="false">
+		<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+		</logger>
+		<logger name="com.alibaba.dubbo" level="ERROR" additivity="false">
+		<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+			<appender-ref ref="KafkaAsyncAppender" />
+		</logger>
+		<logger name="org.apache.zookeeper" level="ERROR" additivity="false">
+		<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+<!--			<appender-ref ref="KafkaAsyncAppender" />-->
+		</logger>
+		<logger name="com.alibaba.rocketmq" level="ERROR" additivity="false">
+		<AppenderRef ref="debugAppender" />
+			<AppenderRef ref="infoAppender" />
+			<AppenderRef ref="warnAppender" />
+			<AppenderRef ref="errorAppender" />
+		</logger>
+
+		<!--myibatis log configure -->
+		<logger name="org.apache.ibatis" level="TRACE"/>
+		<logger name="java.sql.Connection" level="DEBUG"/>
+		<logger name="java.sql.Statement" level="DEBUG"/>
+		<logger name="java.sql.PreparedStatement" level="DEBUG"/>
+		<logger name="com.onecard.loan.mapper" level="DEBUG"/>
+		<logger name="com.onecard" level="DEBUG"/>
+		<logger name="org.springframework.jdbc" level="DEBUG"/>
+		<logger name="com.alibaba.dubbo" level="ERROR"/>
+		<logger name="org.apache.zookeeper" level="ERROR"/>
+		<logger name="com.alibaba.rocketmq" level="ERROR"/>
+	</Loggers>
+</Configuration>
