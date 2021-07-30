@@ -47,24 +47,20 @@ public class BloomFilterTest {
 
     }
 
-    @Test
+    //@Test
     public void redis(){
         Config config = new Config();
         config.useMasterSlaveServers().setMasterAddress("redis://192.168.161.219:6380");
         RedissonClient redisson = Redisson.create(config);
 
         RBloomFilter<String> bloomFilter = redisson.getBloomFilter("bloomFilter");
-        System.out.println("1");
         /**
          *  初始化布隆过滤器,并添加所有的元素到过滤器
          */
         bloomFilter.tryInit(length,fpp);
-        System.out.println("2");
         for (int i = 0; i < length; i++) {
-            System.out.println(i);
             bloomFilter.add(i+"");
         }
-        System.out.println("3");
         int count = 0;
         long start = System.currentTimeMillis();
         /**
