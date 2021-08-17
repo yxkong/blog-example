@@ -6,8 +6,6 @@
 		<Property name="PROJECT_NAME">other</Property>
 		<Property name="LOG_HOME">logs/${PROJECT_NAME}</Property>
 		<Property name="COMMON_LEVEL">info</Property>
-		<!--<Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS} [%C %M %L] %t [%p] - %msg%n-->
-		<!--</Property>-->
 		<Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS} [%level]-[Thread:%t]-[%logger{36}]-lsh:%X{lsh}-feignId:%X{feignId}-token:%X{token} - %msg%n</Property>
 		<Property name="LEVEL_ERROR">info</Property>
 	</Properties>

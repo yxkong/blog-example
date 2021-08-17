@@ -3,8 +3,11 @@ package com.yxkong.other;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.slf4j.spi.MDCAdapter;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @Author: yxkong
@@ -16,6 +19,7 @@ public class Log4jMdcTest {
 
     @Test
     public void test(){
+        MDC.put("lsh", UUID.randomUUID().toString());
         logger.info("test info level ");
     }
 }
