@@ -19,7 +19,10 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.66.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.yxkong</groupId>
+            <artifactId>common</artifactId>
         </dependency>
     </dependencies>
 

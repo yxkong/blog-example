@@ -16,9 +16,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class BioServer {
 
-    public void server(int port)throws IOException {
+    public void server(String host,int port)throws IOException {
         //建立socket通道
-        final ServerSocket socket = new ServerSocket(port,10, InetAddress.getByName("127.0.0.1"));
+        final ServerSocket socket = new ServerSocket(port,10, InetAddress.getByName(host));
         try {
             //死循环监听请求
             for (;;){
@@ -56,7 +56,7 @@ public class BioServer {
     public static void main(String[] args) {
         BioServer bioServer = new BioServer();
         try {
-            bioServer.server(8081);
+            bioServer.server("127.0.0.1",8081);
         } catch (IOException e) {
             e.printStackTrace();
         }
