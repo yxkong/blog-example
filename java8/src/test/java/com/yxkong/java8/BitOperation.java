@@ -13,7 +13,7 @@ public class BitOperation  extends TestBase {
     @Test
     public void test(){
 
-        printFormat(Integer.MIN_VALUE-1);
+        printFormat(-101);
         printFormat(-3);
         printFormat(101^32);
         System.out.println(Integer.toBinaryString(-3));

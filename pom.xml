@@ -9,7 +9,7 @@
         <module>delayQueue</module>
         <module>common</module>
         <module>design</module>
-        <module>netty</module>
+        <module>netty</module>S
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
